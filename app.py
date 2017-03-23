@@ -43,7 +43,7 @@ def makeWebhookResult(req):
     print(speech)
 
     return {
-        "speech": "ABC",
+        "speech": speech,
         "displayText": speech,
         #"data": {},
         # "contextOut": [],
