@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
-import urllib
+from __future__ import print_function
+from future.standard_library import install_aliases
+install_aliases()
+
+from urllib.parse import urlparse, urlencode
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
+
 import json
 import os
 
@@ -19,25 +26,43 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = makeWebhookResult(req)
+    res = processRequest(req)
 
     res = json.dumps(res, indent=4)
-    print(res)
+    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
-def makeWebhookResult(req):
+
+def processRequest(req):
     if req.get("result").get("action") != "barry.robot":
         return {}
+    
+    yql_query = makeYqlQuery(req)
+    if yql_query is None:
+        return {}
+    data = yql_query
+    res = makeWebhookResult(data)
+    return res
+
+
+def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
-    
-    technology = parameters.get("searchTech")  
+    tech = parameters.get("searchTech")
+    if tech is None:
+        return None
 
-    resource = {'JAVA' : 10, '.Net' : 2, 'Blue Prism' : 5}
-           
-    speech = "Technology you want" + technology + " resources: "  + str(resource[technology])
+    return tech
+
+
+def makeWebhookResult(data):
+        
+    resource = {'JAVA':100, 'C++':200, '.Net':300}
+    # print(json.dumps(item, indent=4))
+
+    speech = "Technology: " + data + "resources: " + str(resource[data])
     
     print("Response:")
     print(speech)
@@ -45,7 +70,7 @@ def makeWebhookResult(req):
     return {
         "speech": speech,
         "displayText": speech,
-        #"data": {},
+        # "data": data,
         # "contextOut": [],
         "source": "Barry"
     }
@@ -54,6 +79,6 @@ def makeWebhookResult(req):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    #print "Starting app on port %d" % port
+    print("Starting app on port %d" % port)
 
-    app.run(debug=True, port=port, host='0.0.0.0')
+    app.run(debug=False, port=port, host='0.0.0.0')
