@@ -10,6 +10,7 @@ from urllib.error import HTTPError
 
 import json
 import os
+import re
 
 from flask import Flask
 from flask import request
@@ -41,56 +42,37 @@ def processRequest(req):
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-   # yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-   # result = urlopen(yql_url).read()
-    data = json.loads(result)
+    #yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    data = yql_query
+    
     res = makeWebhookResult(data)
     return res
 
 
 def makeYqlQuery(req):
     result = req.get("result")
-    parameters = result.get("parameters")
-    
+    parameters = result.get("parameters")  
     technology = parameters.get("searchTech")
-    if technology is None:
+        if technology is None:
         return None
-
+    
     location = parameters.get("searchLoc")
-    if location is None:
+       if location is None:
         return None
     
     role = parameters.get("searchdesignation")
-    if role is None:
+        if role is None:
         return None
     
-    return technology +  location + role
+    return technology + "-" + location + "-" + role
 
 
 def makeWebhookResult(data):
-    query = data.get('query')
-    if query is None:
-        return {}
-
-    result = query.get('results')
-    if result is None:
-        return {}
-
-    technology = parameters.get("searchTech")
-    if technology is None:
-        return None
-
-    location = parameters.get("searchLoc")
-    if location is None:
-        return None
-    
-    role = parameters.get("searchdesignation")
-    if role is None:
-        return None
+    Tech,Loc,Role = re.split('-', data)
     
     # print(json.dumps(item, indent=4))
-
-    speech = "Tech: " + technology + " location: "  + location + " Role: " + role
+    
+    speech = "Tech: " + Tech + " location: "  + Loc + " Role: " + Role
 
     print("Response:")
     print(speech)
@@ -100,7 +82,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai barry.robot"
+        "source": "Barry"
     }
 
 
