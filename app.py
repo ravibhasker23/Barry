@@ -44,7 +44,7 @@ def processRequest(req):
     if yql_query is None:
         return {}
     data = yql_query
-    res = makeWebhookResult(data)
+    res = makeWebhookResult(req)
     return res
 
 
@@ -70,7 +70,7 @@ def makeWebhookResult(data):
     resource = {'JAVA':100, 'C++':200, '.Net':300}
     # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + tecg + "Resources " + str(resource[tech])
+    speech = "Technology: " + tech + "Resources " + str(resource[tech])
     
     print("Response:")
     print(speech)
