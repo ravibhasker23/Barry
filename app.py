@@ -40,9 +40,6 @@ def processRequest(req):
     if req.get("result").get("action") != "barry.robot":
         return {}
     
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
     res = makeWebhookResult(req)
     return res
 
