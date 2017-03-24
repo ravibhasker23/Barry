@@ -34,14 +34,16 @@ def makeWebhookResult(req):
     
     parameters = result.get("parameters")
     tech = parameters.get("searchTech")
-    
+    if tech is none
+        return {}
     loc = parameters.get("searchLoc")
-    
+    if loc is none
+        return {}
     designation = parameters.get("searchdesignation")
-    
-    resc = {'JAVA':100, '.Net':200, 'C++':300}
+    if designation is none
+        return {}    
 
-    speech = "Technology " + tech + " has " + str(resc[tech]) + " resources" + " at " + loc + " with this " + designation
+    speech = "Technology " + tech + " at " + loc + " with this " + designation
 
     print("Response:")
     print(speech)
