@@ -33,15 +33,18 @@ def makeWebhookResult(req):
     result = req.get("result")
     
     parameters = result.get("parameters")
-    tech = parameters.get("searchTech")
-    if tech is none
-        return {}
-    loc = parameters.get("searchLoc")
-    if loc is none
-        return {}
     designation = parameters.get("searchdesignation")
     if designation is none
         return {}    
+    
+    loc = parameters.get("searchLoc")
+    if loc is none
+        return {}
+    
+    tech = parameters.get("searchTech")
+    if tech is none
+        return {}
+    
 
     speech = "Technology " + tech + " at " + loc + " with this " + designation
 
