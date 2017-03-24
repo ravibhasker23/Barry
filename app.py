@@ -43,34 +43,19 @@ def processRequest(req):
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    data = yql_query
     res = makeWebhookResult(req)
     return res
-
-
-def makeYqlQuery(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    tech = parameters.get("searchTech")
-    if tech is None:
-        return None
-    
-    #Loc = parameters.get("searchLoc")
-    #if Loc is None:
-        #return None
-        
-    return tech
 
 
 def makeWebhookResult(req):
     
     result = req.get("result")
     parameters = result.get("parameters")
-    tech_new = parameters.get("searchTech")
+    tech = parameters.get("searchTech")
     resource = {'JAVA':100, 'C++':200, '.Net':300}
     # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + tech_new + "Resources " + str(resource[tech_new])
+    speech = "Technology: " + tech + "Resources " + str(resource[tech])
     
     print("Response:")
     print(speech)
