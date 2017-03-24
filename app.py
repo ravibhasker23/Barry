@@ -64,13 +64,13 @@ def makeYqlQuery(req):
 
 def makeWebhookResult(data):
     
-    New_tech = data
-    #parameters = result.get("parameters")
-    #tech = parameters.get("searchTech")
+    result = data.get("result")
+    parameters = result.get("parameters")
+    tech = parameters.get("searchTech")
     resource = {'JAVA':100, 'C++':200, '.Net':300}
     # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + New_tech + "Resources " + str(resource[New_tech])
+    speech = "Technology: " + tecg + "Resources " + str(resource[tech])
     
     print("Response:")
     print(speech)
