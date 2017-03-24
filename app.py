@@ -55,22 +55,22 @@ def makeYqlQuery(req):
     if tech is None:
         return None
     
-    Loc = parameters.get("searchLoc")
-    if Loc is None:
-        return None
+    #Loc = parameters.get("searchLoc")
+    #if Loc is None:
+        #return None
         
-    return tech + "-" + Loc
+    return tech
 
 
 def makeWebhookResult(data):
     
-    New_tech,New_Loc = re.split('-', data)
+    New_tech = data
     #parameters = result.get("parameters")
     #tech = parameters.get("searchTech")
-    #resource = {'JAVA':100, 'C++':200, '.Net':300}
+    resource = {'JAVA':100, 'C++':200, '.Net':300}
     # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + New_tech + "Location: " + New_Loc
+    speech = "Technology: " + New_tech + "Resources " + str(resource[New_tech])
     
     print("Response:")
     print(speech)
