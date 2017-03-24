@@ -1,16 +1,8 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
-from future.standard_library import install_aliases
-install_aliases()
-
-from urllib.parse import urlparse, urlencode
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
-
+import urllib
 import json
 import os
-import re
 
 from flask import Flask
 from flask import request
@@ -30,28 +22,29 @@ def webhook():
     res = makeWebhookResult(req)
 
     res = json.dumps(res, indent=4)
-    # print(res)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 def makeWebhookResult(req):
-    
+    if req.get("result").get("action") != "barry.robot":
+        return {}
     result = req.get("result")
     parameters = result.get("parameters")
     tech = parameters.get("searchTech")
-    resource = {'JAVA':100, 'C++':200, '.Net':300}
-    # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + tech + "Resources " + str(resource[tech])
-    
+    resource = {'JAVA':100, '.Net':200, 'C++':300}
+
+    speech = "The technology " + tech + " has " + str(resource[tech]) + "resource(s)"
+
     print("Response:")
     print(speech)
 
     return {
         "speech": speech,
         "displayText": speech,
-        # "data": data,
+        #"data": {},
         # "contextOut": [],
         "source": "Barry"
     }
@@ -60,6 +53,6 @@ def makeWebhookResult(req):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print("Starting app on port %d" % port)
+    print "Starting app on port %d" % port
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=True, port=port, host='0.0.0.0'
