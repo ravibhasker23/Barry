@@ -10,6 +10,7 @@ from urllib.error import HTTPError
 
 import json
 import os
+import re
 
 from flask import Flask
 from flask import request
@@ -42,7 +43,8 @@ def processRequest(req):
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    res = makeWebhookResult(req)
+    data = yql_query
+    res = makeWebhookResult(data)
     return res
 
 
@@ -52,18 +54,23 @@ def makeYqlQuery(req):
     tech = parameters.get("searchTech")
     if tech is None:
         return None
+    
+    Loc = parameters.get("searchLoc")
+    if Loc is None:
+        return None
+        
+    return tech + "-" + Loc
 
-    return tech
 
-
-def makeWebhookResult(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    tech = parameters.get("searchTech")
-    resource = {'JAVA':100, 'C++':200, '.Net':300}
+def makeWebhookResult(data):
+    
+    New_tech,New_Loc = re.split('-', data)
+    #parameters = result.get("parameters")
+    #tech = parameters.get("searchTech")
+    #resource = {'JAVA':100, 'C++':200, '.Net':300}
     # print(json.dumps(item, indent=4))
 
-    speech = "Technology: " + tech + "resources: " + str(resource[tech])
+    speech = "Technology: " + New_tech + "Location: " + New_Loc
     
     print("Response:")
     print(speech)
