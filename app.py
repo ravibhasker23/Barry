@@ -34,7 +34,7 @@ def makeWebhookResult(req):
     parameters = result.get("parameters")
     technology = parameters.get("searchTech")
 
-    resource = {'JAVA':100, '.Net':200, 'C++':300}
+    resource = {'JAVA':100}
 
     speech = " The technology " + technology + " has " + str(resource[technology]) + " resource(s) "
 
@@ -42,7 +42,7 @@ def makeWebhookResult(req):
     print(speech)
 
     return {
-        "speech": speech,
+        "speech": "ABC",
         "displayText": speech,
         #"data": {},
         # "contextOut": [],
