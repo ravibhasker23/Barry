@@ -28,31 +28,31 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "barry.robot":
+    if req.get("result").get("action") != "barry.bot":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
-    technology = parameters.get("searchTech")
+    tech = parameters.get("searchTech")
 
-    resource = {'JAVA':100, 'C++':200}
+    resc = {'JAVA':100, '.Net':200, 'C++':300}
 
-    speech = " The technology " + technology + " has " + str(resource[technology])
+    speech = "Technology " + tech + " has " + str(resc[tech]) + " resources"
 
     print("Response:")
     print(speech)
 
     return {
-        "speech": "ABC",
-        "displayText": "ABC",
+        "speech": speech,
+        "displayText": speech,
         #"data": {},
         # "contextOut": [],
-        "source": "Barry"
+        "source": "apiai-barry-robot"
     }
 
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-   # print "Starting app on port %d" % port
+    print "Starting app on port %d" % port
 
-    app.run(debug=True, port=port, host='0.0.0.0'
+    app.run(debug=True, port=port, host='0.0.0.0')
