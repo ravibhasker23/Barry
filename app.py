@@ -44,7 +44,7 @@ def processRequest(req):
     if yql_query is None:
         return {}
     data = yql_query
-    res = makeWebhookResult(req)
+    res = makeWebhookResult(data)
     return res
 
 
