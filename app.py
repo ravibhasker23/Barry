@@ -30,24 +30,35 @@ def webhook():
 def makeWebhookResult(req):
     if req.get("result").get("action") != "barry.bot":
         return {}
+    
     result = req.get("result")
     
     parameters = result.get("parameters")
+    
+    
+
     designation = parameters.get("searchdesignation")
-    if designation is none
-        return {}    
-    
-    loc = parameters.get("searchLoc")
-    if loc is none
+    if designation is None:
         return {}
+    #speech = "Technology you want" + technology + " Project Location " + projectLoc + "Role " + designation
     
-    tech = parameters.get("searchTech")
-    if tech is none
+    projectLoc = parameters.get("searchLoc")
+    if projectLoc is None:
         return {}
+    #speech = "Technology you want" + technology + " Project Location " + projectLoc
+
+    technology = parameters.get("searchTech") 
+    if technology is None:
+        return {}
+    #speech = "Technology you want" + technology
+
+    #resource = {'JAVA' : 10, '.Net' : 2, 'Blue Prism' : 5}
+           
+    speech =  "Technology " + technology + " Project Location " + projectLoc + "Role " + designation
+    #speech  = "You have searched profiles for " + technology + " for location " + prefLoc + " with experience " + experience + " and designation " + designation
     
-
-    speech = "Technology " + tech + " at " + loc + " with this " + designation
-
+    #speech = "Technology you want" + technology + " Project Location " + projectLoc + "Role " + designation
+    
     print("Response:")
     print(speech)
 
@@ -56,13 +67,13 @@ def makeWebhookResult(req):
         "displayText": speech,
         #"data": {},
         # "contextOut": [],
-        "source": "apiai-barry-robot"
+        "source": "barry-bot"
     }
 
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print "Starting app on port %d" % port
-
+    #print "Starting app on port %d" % port
+ 
     app.run(debug=True, port=port, host='0.0.0.0')
