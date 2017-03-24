@@ -31,10 +31,14 @@ def makeWebhookResult(req):
     if req.get("result").get("action") != "barry.bot":
         return {}
     result = req.get("result")
+    
     parameters = result.get("parameters")
     tech = parameters.get("searchTech")
+    
     loc = parameters.get("searchLoc")
+    
     designation = parameters.get("searchdesignation")
+    
     resc = {'JAVA':100, '.Net':200, 'C++':300}
 
     speech = "Technology " + tech + " has " + str(resc[tech]) + " resources" + " at " + loc + " with this " + designation
