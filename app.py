@@ -27,22 +27,13 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = processRequest(req)
+    res = makeWebhookResult(req)
 
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
-
-
-def processRequest(req):
-    if req.get("result").get("action") != "barry.robot":
-        return {}
-    
-    res = makeWebhookResult(req)
-    return res
-
 
 def makeWebhookResult(req):
     
